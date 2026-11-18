@@ -1,0 +1,17 @@
+{
+  "name": "adv-ai-concierge",
+  "version": "1.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test",
+    "sync:microcms": "node scripts/sync-microcms.mjs"
+  },
+  "dependencies": {
+    "pg": "8.16.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
