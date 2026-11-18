@@ -1,0 +1,43 @@
+
+name: ADV AI Concierge CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ci-validation]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: adv-ai-concierge-v1.2
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts
+
+      - name: Run tests
+        env:
+          NODE_ENV: test
+          DEMO_MODE: "true"
+        run: npm test
+
+      - name: Check syntax
+        run: |
+          node --check server.mjs
+          node --check lib/storage.mjs
+
+      - name: Docker build
+        run: docker build -t adv-ai-concierge:ci .
